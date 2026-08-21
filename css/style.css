@@ -85,11 +85,15 @@ body {
 header {
 	position: fixed;
 	top: 0;
-	width: 448px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	max-width: 448px;
 	height: 70px;
 	display: flex;
 	align-items: center;
 	background: #edf3f1;
+	box-sizing: border-box;
 	z-index: 10;
 }
 header .logo {
@@ -101,6 +105,7 @@ header .logo {
 	display: flex;
 	align-items: center;
 	margin-left: auto;
+	flex-shrink: 0;
 }
 
 .header-link-btn {
