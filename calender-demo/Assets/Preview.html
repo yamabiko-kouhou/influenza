@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LPプレビュー</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+<!-- LP本体のCSSをそのまま読み込む．管理画面側で見た目を作り直すとズレるため． -->
+<!-- LP本体からコピーしたCSS．本番のCSSを変えたら Lp/style.css も更新すること -->
+<link rel="stylesheet" href="../Lp/style.css">
+<style>
+	/* プレビュー枠のための最小限の調整のみ．LPの見た目は触らない． */
+	body {
+		height: auto;
+		padding: 16px 12px 24px;
+	}
+	.preview-note {
+		max-width: 450px;
+		margin: 0 auto 12px;
+		color: #777;
+		font-size: 12px;
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+
+<p class="preview-note">保存前の内容です．ラベルを押すとポップアップを確認できます．</p>
+
+<!-- LP の section#area3 と同じ構造にする -->
+<div class="calendar">
+  <div class="calendar-header">
+    <button type="button" class="calendar-prev" aria-label="前の月">&#10094;</button>
+    <div class="calendar-month" id="calendar-month">—</div>
+    <button type="button" class="calendar-next" aria-label="次の月">&#10095;</button>
+  </div>
+  <div class="calendar-week">
+    <div>月</div><div>火</div><div>水</div><div>木</div><div>金</div>
+    <div class="sat">土</div><div class="sun">日</div>
+  </div>
+  <div class="calendar-days" id="calendar-days"></div>
+</div>
+
+<script>
+/* =========================================================
+   プレビュー用の月グリッド生成
+
+   LP本体の main.js と同じ手順でマスを組み立てる．
+   ラベルとポップアップの描画は，LPの実ファイル CalendarSchedule.js が
+   このあと担当する（下で読み込む）．
+========================================================= */
+(function () {
+	'use strict';
+
+	/* 編集中のデータを親（管理画面）から受け取る．
+	   CalendarSchedule.js は data/ScheduleData.js の読み込みに失敗しても，
+	   すでに window.INFLU_SCHEDULE があればそれを採用する． */
+	try {
+		window.INFLU_SCHEDULE = window.parent.BuildPreviewSchedule();
+	} catch (error) {
+		window.INFLU_SCHEDULE = null;
+	}
+
+	/* 祝日の指定．LP本体 main.js の holidays と同じ内容を保つこと． */
+	var holidays = [
+		'2026-08-11', '2026-09-21', '2026-09-22', '2026-09-23',
+		'2026-10-12', '2026-11-03', '2026-11-23',
+		'2027-01-01', '2027-01-11', '2027-02-11', '2027-02-23',
+		'2027-03-21', '2027-03-22'
+	];
+
+	var monthElement = document.getElementById('calendar-month');
+	var daysElement = document.getElementById('calendar-days');
+	var current = new Date(2026, 7, 1);
+
+	/* 親が開いている月に合わせる */
+	try {
+		var requested = window.parent.GetPreviewMonth();
+		current = new Date(requested.year, requested.month, 1);
+	} catch (error) {
+		/* 単体で開かれた場合は既定の月のまま */
+	}
+
+	function pad(value) {
+		return value < 10 ? '0' + value : String(value);
+	}
+
+	function createCalendar(date) {
+		var year = date.getFullYear();
+		var month = date.getMonth();
+
+		monthElement.textContent = year + '年' + (month + 1) + '月';
+		daysElement.innerHTML = '';
+
+		/* 月曜始まりにするため日曜を末尾へ回す */
+		var firstDay = new Date(year, month, 1).getDay();
+		firstDay = firstDay === 0 ? 6 : firstDay - 1;
+
+		var lastDate = new Date(year, month + 1, 0).getDate();
+		var previousLastDate = new Date(year, month, 0).getDate();
+		var totalCells = Math.ceil((firstDay + lastDate) / 7) * 7;
+		var today = new Date();
+
+		for (var i = 0; i < totalCells; i++) {
+			var cell = document.createElement('div');
+			cell.classList.add('calendar-day');
+			var dayNumber;
+			var cellDate;
+
+			if (i < firstDay) {
+				dayNumber = previousLastDate - firstDay + i + 1;
+				cellDate = new Date(year, month - 1, dayNumber);
+				cell.classList.add('other-month');
+			} else if (i < firstDay + lastDate) {
+				dayNumber = i - firstDay + 1;
+				cellDate = new Date(year, month, dayNumber);
+			} else {
+				dayNumber = i - firstDay - lastDate + 1;
+				cellDate = new Date(year, month + 1, dayNumber);
+				cell.classList.add('other-month');
+			}
+
+			var dayOfWeek = cellDate.getDay();
+			if (dayOfWeek === 0) { cell.classList.add('sunday'); }
+			if (dayOfWeek === 6) { cell.classList.add('saturday'); }
+
+			var dateString = cellDate.getFullYear() + '-' +
+				pad(cellDate.getMonth() + 1) + '-' + pad(cellDate.getDate());
+			if (holidays.indexOf(dateString) !== -1) { cell.classList.add('holiday'); }
+
+			var dateElement = document.createElement('span');
+			dateElement.classList.add('calendar-date');
+			dateElement.textContent = dayNumber;
+			cell.appendChild(dateElement);
+
+			if (cellDate.getFullYear() === today.getFullYear() &&
+				cellDate.getMonth() === today.getMonth() &&
+				cellDate.getDate() === today.getDate()) {
+				cell.classList.add('today');
+			}
+
+			daysElement.appendChild(cell);
+		}
+	}
+
+	document.querySelector('.calendar-prev').addEventListener('click', function () {
+		current = new Date(current.getFullYear(), current.getMonth() - 1, 1);
+		createCalendar(current);
+	});
+	document.querySelector('.calendar-next').addEventListener('click', function () {
+		current = new Date(current.getFullYear(), current.getMonth() + 1, 1);
+		createCalendar(current);
+	});
+
+	/* CalendarSchedule.js より先に登録するため，グリッドが先に組み上がる */
+	document.addEventListener('DOMContentLoaded', function () {
+		createCalendar(current);
+	});
+})();
+</script>
+
+<!-- LP本体の実ファイル．ラベル描画とポップアップはこれが担当する． -->
+<!-- LP本体からコピーしたラベル描画スクリプト．
+     本番の js/CalendarSchedule.js を変えたら Lp/CalendarSchedule.js も更新すること． -->
+<script src="../Lp/CalendarSchedule.js"></script>
+</body>
+</html>

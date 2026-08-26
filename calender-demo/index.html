@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>接種可能日カレンダー 管理</title>
+<!-- アイコンをインラインで持たせ，favicon.ico の404が毎回コンソールに出るのを防ぐ．
+     本物のエラーが警告の中に埋もれないようにするため． -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23199253'/><rect x='7' y='9' width='18' height='15' rx='2' fill='%23fff'/><rect x='7' y='9' width='18' height='4' rx='2' fill='%2370b879'/><rect x='10' y='16' width='5' height='3' rx='1' fill='%23287bc1'/><rect x='17' y='16' width='5' height='3' rx='1' fill='%23d93636'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Assets/Admin.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-header__title">
+    <h1>接種可能日カレンダー 管理</h1>
+    <!-- 院内PCの管理サーバ版（http://127.0.0.1:8085/）と見分けが付くよう明記する．
+         両方を行き来すると内容が食い違うため，どちらを開いているかは常に分かるようにしておく． -->
+    <p class="app-header__sub">成城整形外科リウマチ科 インフルエンザ予防接種LP ／ ブラウザ版（保存＝ファイルのダウンロード）</p>
+  </div>
+  <div class="app-header__meta">
+    <span id="last-updated" class="meta-item">最終更新: —</span>
+    <span id="dirty-mark" class="meta-item meta-item--dirty" hidden>未保存の変更があります</span>
+  </div>
+</header>
+
+<!-- 共有フォルダ切断や競合など，操作を止めるべき事態を知らせる帯 -->
+<div id="banner" class="banner" hidden></div>
+
+<main class="layout">
+
+  <!-- ================= 左ペイン：カレンダー ================= -->
+  <section class="pane">
+    <div class="cal-nav">
+      <button type="button" id="prev-month" class="cal-nav__btn" aria-label="前の月">&#10094;</button>
+      <div id="cal-title" class="cal-nav__title">—</div>
+      <button type="button" id="next-month" class="cal-nav__btn" aria-label="次の月">&#10095;</button>
+    </div>
+
+    <div class="cal-week">
+      <div>月</div><div>火</div><div>水</div><div>木</div><div>金</div>
+      <div class="sat">土</div><div class="sun">日</div>
+    </div>
+    <div id="cal-grid" class="cal-grid"></div>
+
+    <label class="toggle">
+      <input type="checkbox" id="multi-mode">
+      <span>複数日選択モード（Shift＋クリックで範囲選択）</span>
+    </label>
+
+    <div class="legend">
+      <span class="chip chip--vaccination">接種対応</span>
+      <span class="chip chip--holiday">休日接種</span>
+      <span class="chip chip--closed">休診</span>
+    </div>
+
+    <div class="presets">
+      <h2 class="pane__heading">プリセット</h2>
+      <ul id="preset-list" class="preset-list"></ul>
+      <button type="button" id="preset-save" class="btn btn--ghost">現在の入力をプリセットに保存</button>
+    </div>
+  </section>
+
+  <!-- ================= 右ペイン：編集 ================= -->
+  <section class="pane">
+    <div class="selection">
+      <div>
+        <span class="selection__label">選択中</span>
+        <span id="selection-text" class="selection__text">日付が選択されていません</span>
+      </div>
+      <button type="button" id="clear-selection" class="btn btn--text">選択解除</button>
+    </div>
+
+    <h2 class="pane__heading">種別（1つ選択）</h2>
+    <div class="type-buttons" role="group" aria-label="ラベル種別">
+      <button type="button" class="type-btn" data-type="vaccination">
+        <span class="chip chip--vaccination">接種対応</span>
+      </button>
+      <button type="button" class="type-btn" data-type="holiday_vaccination">
+        <span class="chip chip--holiday">休日接種</span>
+      </button>
+      <button type="button" class="type-btn" data-type="closed">
+        <span class="chip chip--closed">休診</span>
+      </button>
+    </div>
+
+    <p id="closed-note" class="note note--info" hidden>
+      休診は詳細を入力しなくても保存できます．入力した場合は，休診ラベルを押すと詳細のポップアップが開きます．
+    </p>
+
+    <div id="detail-fields" class="fields">
+      <div class="field">
+        <label for="input-time">時間</label>
+        <textarea id="input-time" rows="3" maxlength="800" placeholder="午前：9:00～13:00&#10;午後：14:30～18:15"></textarea>
+        <span class="counter" id="counter-time">0 / 200</span>
+      </div>
+      <div class="field">
+        <label for="input-kind">種類</label>
+        <textarea id="input-kind" rows="3" maxlength="800" placeholder="皮下注射&#10;※フルミストは接種できません"></textarea>
+        <span class="counter" id="counter-kind">0 / 200</span>
+      </div>
+      <div class="field">
+        <label for="input-target">対象</label>
+        <textarea id="input-target" rows="2" maxlength="800" placeholder="12歳(中学生)以上"></textarea>
+        <span class="counter" id="counter-target">0 / 200</span>
+      </div>
+      <p class="note">「※」で始まる行は，LPでは小さな注記として表示されます（装飾を付けた行を除く）．</p>
+      <p class="note">文字を選んでボタンを押すと装飾できます．入力欄では記号のまま見えますが，「プレビューを開く」で実際の見え方を確認できます．</p>
+    </div>
+
+    <div class="editor-actions">
+      <button type="button" id="apply" class="btn btn--primary">選択日に適用</button>
+      <button type="button" id="duplicate" class="btn btn--ghost">直前の入力を複製</button>
+      <button type="button" id="remove" class="btn btn--danger-ghost">選択日のラベルを削除</button>
+    </div>
+
+    <div class="save-area">
+      <button type="button" id="save" class="btn btn--save">保存して更新</button>
+      <p class="note note--strong">※保存すると <strong>ScheduleData.js</strong> がダウンロードされます．<br>
+        本番サイトへは，このファイルを LPの <strong>data/</strong> へ <strong>FTPでアップロードして初めて</strong> 反映されます．</p>
+
+      <!-- ボタンを分けてあるのは «1回の操作につきダウンロードは1ファイル» を守るため．
+           2ファイルまとめて落とすと，ブラウザが複数ダウンロードの許可を尋ね，
+           拒否されると以後このサイトのダウンロードが無言で捨てられる． -->
+      <div class="data-actions">
+        <button type="button" id="import" class="btn btn--ghost">ファイルから読み込む</button>
+        <button type="button" id="download-publish" class="btn btn--ghost">ScheduleData.js を保存</button>
+        <button type="button" id="download-json" class="btn btn--ghost">schedule.json を保存</button>
+      </div>
+      <!-- 見た目を揃えるため，本物のファイル選択欄は隠して上のボタンから開く -->
+      <input type="file" id="import-file" accept=".js,.json,application/json,text/javascript" hidden>
+
+      <p class="note">別のPC・別のブラウザで初めて開いたときは，まず「ファイルから読み込む」で
+        現在の <strong>ScheduleData.js</strong>（または schedule.json）を取り込んでください．
+        取り込まずに保存すると，本番サイトの登録がすべて消えます．</p>
+    </div>
+
+    <div class="backups">
+      <h2 class="pane__heading">バックアップから復元</h2>
+      <div class="backups__row">
+        <select id="backup-select" class="select"></select>
+        <button type="button" id="restore" class="btn btn--ghost">復元</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= プレビュー ================= -->
+<section class="preview">
+  <div class="preview__head">
+    <h2 class="pane__heading">公開前プレビュー（LPと同じ表示）</h2>
+    <button type="button" id="preview-toggle" class="btn btn--ghost">プレビューを開く</button>
+  </div>
+  <div id="preview-body" class="preview__body" hidden>
+    <!-- src はプレビューを開いたときに JS が設定する．
+         iframe はページ解析の時点で読み込みが始まるため，ここに src を書くと
+         末尾の Admin.js より先に走り，編集中データを受け取れないまま起動してしまう． -->
+    <iframe id="preview-frame" class="preview__frame" title="LPプレビュー"></iframe>
+    <p class="note">保存前の内容がそのまま表示されます．ラベルを押すとポップアップも確認できます．</p>
+  </div>
+</section>
+
+<!-- 確認ダイアログ -->
+<div id="dialog" class="dialog" hidden>
+  <div class="dialog__backdrop"></div>
+  <div class="dialog__card" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+    <h3 id="dialog-title" class="dialog__title"></h3>
+    <div id="dialog-body" class="dialog__body"></div>
+    <div class="dialog__actions">
+      <button type="button" id="dialog-cancel" class="btn btn--ghost">キャンセル</button>
+      <button type="button" id="dialog-ok" class="btn btn--primary">実行</button>
+    </div>
+  </div>
+</div>
+
+<!-- 保存結果などの通知 -->
+<div id="toast" class="toast" hidden></div>
+
+<!-- 読み込む順番に意味がある．
+     AppConfig.js / DefaultPresets.js  … 設定と初期値をグローバルに置く
+     LocalApi.js                        … その設定を見てブラウザ内APIを組み立てる
+     Admin.js                           … 最後に画面を起動する
+     JSON ではなく JS で設定を持つのは，file:// で開いた検証時に
+     fetch が CORS で失敗するのに対し <script> なら必ず読めるため． -->
+<script src="Assets/AppConfig.js"></script>
+<script src="Assets/DefaultPresets.js"></script>
+<script src="Assets/LocalApi.js"></script>
+<script src="Assets/Admin.js"></script>
+</body>
+</html>

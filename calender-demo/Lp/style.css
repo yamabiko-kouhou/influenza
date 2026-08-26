@@ -1,0 +1,1404 @@
+@charset "utf-8";
+
+html *,
+::before,
+::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+html {
+	margin: 0 auto;
+	font-size: 17px;
+	line-height: 1.7;
+	scroll-behavior: smooth;
+	scroll-margin-top: 80px;
+}
+body {
+	font-family: "Zen Kaku Gothic New", sans-serif;
+	color: #333;
+}
+img {
+	max-width: 100%;
+	height: auto;
+	vertical-align: bottom;
+}
+ul {
+	list-style: none;
+}
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+
+/*------------------- 背景とPC用メニュー -------------------*/
+body {
+	height: 100vh;
+	//background: linear-gradient(90deg, #edf3f1 0%, #edf3f1 50%, #73c07c 50%, #73c07c 100%);
+	background: #edf3f1;
+	background-attachment: fixed;
+}
+#illust-bg {
+	width: 28%;
+	position: fixed;
+	bottom: -10%;
+	left: 0;
+	overflow: hidden;
+}
+#pc-nav {
+	display: block;
+	position: fixed;
+	top: 25%;
+	right: 10%;
+	margin-left: -50%;
+	padding: 20px;
+	background: #fff;
+	border-radius: 20px;
+	color: #333;
+}
+#pc-nav .logo img {
+	display: block;
+	margin: 0 auto 30px;
+	width: 200px;
+    height: auto;
+}
+#pc-nav ul li a {
+	transition: .2s;
+}
+#pc-nav ul li a:hover {
+	opacity: .5;
+}
+#pc-nav .pc-nav {
+	font-size: 1rem;
+	line-height: 2.5;
+	text-transform: uppercase;
+}
+@media (max-width: 1300px) {
+	#bg {
+		display: none;
+	}
+}
+
+
+/*------------------- ヘッダー -------------------*/
+header {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	max-width: 448px;
+	height: 70px;
+	display: flex;
+	align-items: center;
+	background: #edf3f1;
+	box-sizing: border-box;
+	z-index: 10;
+}
+header .logo {
+	width: 40%;
+	margin: 0 0 7px 10px;
+}
+
+.header-actions {
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+	flex-shrink: 0;
+}
+
+.header-link-btn {
+	display: block;
+	width: 90px;
+	margin-right: 15px;
+	padding: 5px 6px;
+	background: #d26c2b;
+	border: 1px solid #d26c2b;
+	border-radius: 50vw;
+	color: #fff;
+	text-align: center;
+	letter-spacing: .1em;
+	text-decoration: none;
+	transition: .3s;
+}
+.header-link-btn:hover {
+	background: #fff;
+	color: #d26c2b;
+}
+
+/* ハンバーガーメニュー */
+.hamburger-morph {
+	position: relative;
+	top: 0;
+	right: 5px;
+	width: 50px;
+	height: 55px;
+	padding: 0;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	z-index: 1000;
+}
+.hamburger-morph__icon {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.menu-label {
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%);
+	font-size: 9px;
+	line-height: 1;
+	letter-spacing: .05em;
+	white-space: nowrap;
+	color: #333;
+	transition: opacity .3s ease;
+}
+.menu-label--menu {
+	opacity: 1;
+}
+.menu-label--close {
+	opacity: 0;
+}
+.hamburger-morph.active .menu-label--menu {
+	opacity: 0;
+}
+.hamburger-morph.active .menu-label--close {
+	opacity: 1;
+}
+
+.hamburger-morph__line {
+	fill: none;
+	stroke: #333;
+	stroke-width: 6;
+	transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hamburger-morph__line:nth-child(1) {
+	stroke-dasharray: 60 207;
+}
+.hamburger-morph__line:nth-child(2) {
+	stroke-dasharray: 60 60;
+}
+.hamburger-morph__line:nth-child(3) {
+	stroke-dasharray: 60 207;
+}
+.hamburger-morph.active .hamburger-morph__line:nth-child(1) {
+	stroke-dasharray: 90 207;
+	stroke-dashoffset: -134;
+}
+.hamburger-morph.active .hamburger-morph__line:nth-child(2) {
+	stroke-dasharray: 1 60;
+	stroke-dashoffset: -30;
+}
+.hamburger-morph.active .hamburger-morph__line:nth-child(3) {
+	stroke-dasharray: 90 207;
+	stroke-dashoffset: -134;
+}
+
+.nav-morph {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%,0);
+	width: 100%;
+	max-width: 450px;
+	height: 100vh;
+	background: rgba(255, 255, 255, 0.98);
+	clip-path: circle(0% at calc(100% - 44px) 44px);
+	transition: clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+	z-index: 900;
+}
+.nav-morph.active {
+	clip-path: circle(150% at calc(100% - 44px) 44px);
+}
+.nav-morph__wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+}
+.nav-morph__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.nav-morph__item {
+	opacity: 0;
+	transform: translateY(30px);
+	transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.nav-morph.active .nav-morph__item {
+	opacity: 1;
+	transform: translateY(0);
+}
+.nav-morph.active .nav-morph__item:nth-child(1) { transition-delay: 0.3s; }
+.nav-morph.active .nav-morph__item:nth-child(2) { transition-delay: 0.4s; }
+.nav-morph.active .nav-morph__item:nth-child(3) { transition-delay: 0.5s; }
+.nav-morph.active .nav-morph__item:nth-child(4) { transition-delay: 0.6s; }
+.nav-morph.active .nav-morph__item:nth-child(5) { transition-delay: 0.7s; }
+.nav-morph.active .nav-morph__item:nth-child(6) { transition-delay: 0.8s; }
+.nav-morph.active .nav-morph__item:nth-child(7) { transition-delay: 0.9s; }
+.nav-morph.active .nav-morph__item:nth-child(8) { transition-delay: 1s; }
+
+.nav-morph__link {
+	position: relative;
+	display: inline-block;
+	padding: 10px;
+	font-size: 1.1rem;
+	text-decoration: none;
+	overflow: hidden;
+}
+.nav-morph__text {
+	display: block;
+	transition: transform 0.3s ease;
+}
+
+
+
+/*------------------- 共通設定 -------------------*/
+#main {
+	max-width: 450px;
+	margin: 0 auto;
+	background: #edf3f1;
+	border-left: 1px solid #bbb;
+	border-right: 1px solid #bbb;
+}
+.main-container section {
+	margin: 0 auto;
+	padding: 70px 20px;
+}
+.bg {
+	background: #fff;
+}
+.img-center {
+	display: block;
+	margin: 0 auto;
+}
+
+/* 見出し */
+.title {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 30px;
+	color: #199253;
+	font-weight: bold;
+	font-size: 2rem;
+	line-height: 1;
+	text-align: center;
+	text-transform: uppercase;
+}
+.title img {
+	width: 30px;
+	height: auto;
+	margin-bottom: 8px;
+}
+
+.title2 {
+	margin: 25px 0 7px;
+	padding: 3px 20px 5px;
+	display: inline-block;
+	background: #70b879;
+	border-radius: 50vw;
+	color: #fff;
+	font-size: .9rem;
+	font-weight: normal;
+}
+
+/* ボタン */
+.link-btn {
+	position: relative;
+	display: block;
+	width: 280px;
+	margin: 50px auto 0;
+	padding: 7px 30px 8px;
+	background: #70b879;
+	border: 1px solid #70b879;
+	border-radius: 50vw;
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+	letter-spacing: .1em;
+	text-decoration: none;
+	transition: .3s;
+}
+.link-btn:hover {
+	background: #fff;
+	color: #70b879;
+}
+.link-btn i {
+	font-size: .85rem;
+}
+.link-btn::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 25px;
+	margin: auto;
+	background-color: #fff;
+	width: 12px;
+	height: 12px;
+	clip-path: polygon(40% 0, 90% 50%, 40% 100%, 30% 90%, 70% 50%, 30% 10%);
+}
+
+.link-btn-yoyaku {
+	width: 310px;
+	padding: 10px 40px 11px;
+	background: #d26c2b;
+	border: 1px solid #d26c2b;
+}
+.link-btn-yoyaku:hover {
+	color: #d26c2b;
+}
+
+/* スクロールアニメ */
+.fadein-anime,
+.fadeup-anime,
+.fadeup-anime2 {
+	opacity: 0;
+}
+.fadein-anime.blockIn {
+	animation: fadeInAnime .7s forwards;
+}
+@keyframes fadeInAnime {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+.fadeup-anime.blockIn {
+	animation: fadeUpAnime .7s forwards;
+}
+.fadeup-anime2.blockIn {
+	animation: fadeUpAnime 1.3s forwards;
+}
+@keyframes fadeUpAnime {
+	from {
+		opacity: 0;
+		transform: translateY(100px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+
+/********************* トップページ *********************/
+.hero {
+	position: relative;
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.hero-image {
+	width: 95%;
+	height: 70vh;
+	margin: 0 auto;
+}
+.hero-image img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 25% 20%;
+}
+.hero-content {
+	position: relative;
+	margin-top: -50px;
+	padding: 100px 15px 30px;
+	min-height: 250px;
+}
+.hero-content::before {
+	content: "";
+	position: absolute;
+	top: -10px;
+	left: -25%;
+	width: 150%;
+	height: 300px;
+	background: #edf3f1;
+	border-radius: 50% 50% 0 0 / 60% 60% 0 0;
+	z-index: 0;
+}
+.hero-content .hero-title {
+	position: absolute;
+	top: -80px;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	text-align: center;
+	color: #199253;
+	text-shadow:
+		2px 2px 0 #fff,
+		-2px -2px 0 #fff,
+		2px -2px 0 #fff,
+		-2px 2px 0 #fff,
+		0 2px 0 #fff,
+		2px 0 0 #fff,
+		-2px 0 0 #fff,
+		0 -2px 0 #fff;
+	font-size: 2.6rem;
+	line-height: 1.3;
+	font-weight: bold;
+	z-index: 2;
+}
+.hero-text {
+	position: relative;
+	margin: 20px 0 5px;
+	padding: 0 20px 85px;
+	line-height: 1.8;
+	z-index: 2;
+}
+.hero-illustration {
+	position: absolute;
+	right: 5px;
+	//bottom: -45px;
+	bottom: 0;
+	width: 28%;
+	height: auto;
+	z-index: 1;
+}
+
+
+/* 特徴 */
+.feature-box {
+	padding: 20px;
+	background: #edf3f1;
+	border-radius: 20px;
+}
+.feature-box h3 {
+	font-size: 1.5rem;
+	text-align: center;
+	letter-spacing: 1px;
+}
+.feature-box h3 span {
+	display: block;
+	color: #70b879;
+	font-size: 1rem;
+	letter-spacing: 2px;
+}
+.feature-box img {
+	display: block;
+	margin: 15px auto;
+}
+.feature-box-text p {
+	margin-bottom: 15px;
+	color: #333;
+}
+.feature-box-text a {
+	margin-top: 0;
+}
+
+/* 料金表 */
+.table-scroll {
+	width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.price-table {
+	width: max-content;
+	min-width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	table-layout: auto;
+}
+.price-table thead th,
+.price-table tbody th,
+.price-table tbody td {
+    padding: 11px 12px;
+	font-size: .9rem;
+}
+.price-table thead th {
+	padding: 12px 15px;
+	background: #70b879;
+	color: #fff;
+	font-weight: normal;
+	text-align: left;
+	border-right: 1px solid #ddd;
+	white-space: nowrap;
+}
+.price-table thead th:first-child {
+	border-radius: 10px 0 0 0;
+}
+.price-table thead th:last-child {
+	border-radius: 0 10px 0 0;
+	border-right: none;
+}
+.price-table tbody th,
+.price-table tbody td {
+  padding: 14px 15px;
+  background: #fff;
+  text-align: left;
+  border-right: 1px solid #bbb;
+  border-bottom: 1px solid #bbb;
+  white-space: nowrap;
+}
+.price-table th:first-child,
+.price-table td:first-child {
+	position: sticky;
+	left: 0;
+	z-index: 1;
+}
+.price-table tbody th:first-child {
+	background: #fff;
+}
+.price-table thead th:first-child {
+	z-index: 2;
+}
+.price-table th:first-child,
+.price-table td:first-child {
+	box-shadow: 2px 0 3px rgba(0, 0, 0, 0.08);
+}
+.price-table tbody td span {
+	margin-left: 10px;
+	font-size: .75rem;
+	font-weight: normal;
+}
+.scroll-note {
+	margin-top: 10px;
+	font-size: 14px;
+	text-align: center;
+}
+
+/* カレンダー */
+.calendar {
+	//display: block;
+	//margin: 0 auto;
+	//width: 100%;
+	//height: 600px;
+}
+.calendar {
+	width: 100%;
+	max-width: 450px;
+	margin: 0 auto;
+	background: #fff;
+	border-top: 1px solid #bbb;
+	border-left: 1px solid #bbb;
+	border-right: 1px solid #bbb;
+	box-sizing: border-box;
+	border-radius: 10px;
+	overflow: hidden;
+	color: #111;
+	font-size: 1rem;
+}
+.calendar-header {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 48px;
+}
+.calendar-month {
+	font-size: 1.1rem;
+	font-weight: normal;
+	letter-spacing: 1px;
+}
+.calendar-header button {
+	position: absolute;
+	width: 35px;
+	height: 35px;
+	padding: 0;
+	border: none;
+	background: transparent;
+	color: #333;
+	font-size: 22px;
+	cursor: pointer;
+}
+.calendar-prev {
+	left: 5px;
+}
+.calendar-next {
+	right: 5px;
+}
+.calendar-header button:disabled {
+	/* 押せない月 */
+	opacity: 0.2;
+	cursor: default;
+}
+
+.calendar-week {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	height: 32px;
+	border-top: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+}
+.calendar-week > div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-right: 1px solid #bbb;
+	font-size: .8rem;
+}
+.calendar-week > div:last-child {
+	border-right: none;
+}
+.calendar-week .sun {
+	color: #d93636;
+}
+.calendar-week .sat {
+	color: #287bc1;
+}
+
+.calendar-days {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+}
+.calendar-day {
+	position: relative;
+	min-height: 75px;
+	padding: 3px;
+	box-sizing: border-box;
+	border-right: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+	background: #fff;
+}
+.calendar-day:nth-child(7n) {
+	border-right: none;
+}
+
+.calendar-date {
+	display: block;
+	font-size: .95rem;
+	font-weight: bold;
+	line-height: 1;
+	text-align: left;
+}
+.calendar-day.saturday .calendar-date {
+	color: #287bc1;
+}
+.calendar-day.sunday .calendar-date,
+.calendar-day.holiday .calendar-date {
+	color: #d93636;
+}
+.calendar-day.other-month {
+	color: #bbb;
+	font-weight: normal;
+}
+.calendar-day.other-month .calendar-date {
+	color: #bbb;
+	font-weight: normal;
+}
+.calendar-day.today {
+	background: #edf3f1;
+}
+.calendar-day.today .calendar-date {
+	display: block;
+	margin: 0;
+	color: #111;
+}
+
+/* フルミスト画像 */
+.slider li img {
+	margin: 0 auto 20px;
+}
+
+/* 当日の流れ */
+.first_flow > li {
+	position: relative;
+}
+.first_flow > li:not(:last-child) {
+	margin-bottom: 40px;
+}
+.first_flow > li:not(:first-child)::before {
+	content: "";
+	position: absolute;
+	top: -40px;
+	left: -webkit-calc(10% + 30px - 2px);
+	left: calc(10% + 30px - 2px);
+	display: block;
+	height: 60px;
+	border-left: 4px dotted #777;
+	z-index: 10;
+}
+.first_flow > li dl {
+	position: relative;
+	width: 100%;
+	padding: 20px 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: #fff;
+	border: 2px solid #73c07c;
+	border-radius: 10px;
+}
+.first_flow > li:not(:last-child) dl::before,
+.first_flow > li:not(:last-child) dl::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	transform: translateX(-50%);
+}
+.first_flow > li:not(:last-child) dl::before {
+	border-width: 22px;
+	border-top-color: #73c07c;
+}
+.first_flow > li:not(:last-child) dl::after {
+	border-width: 20px;
+	border-top-color: #fff;
+}
+.first_flow > li dl dt {
+	flex-basis: 20%;
+	font-size: 20px;
+	font-weight: 600;
+	color: #73c07c;
+	text-align: center;
+	flex-shrink: 0;
+}
+.first_flow > li dl dt .icon {
+	position: relative;
+	display: block;
+	margin-bottom: 5px;
+	padding: 5px 10px;
+	background: #73c07c;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#73c07c', endColorstr='#73c07c',GradientType=1 );
+	border-radius: 20px;
+	color: #fff;
+	font-size: 12px;
+	letter-spacing: 2px;
+	z-index: 50;
+}
+.first_flow > li dl dt img {
+	display: block;
+	width: 75%;
+	margin: 10px auto 15px;
+}
+.first_flow ul {
+	padding: 10px 15px;
+	list-style: inside;
+	background: #F2F5F7;
+}
+.first_flow .link-btn {
+	margin: 20px auto 0;
+}
+
+/* よくある質問 */
+.accordion-area {
+	width: 100%;
+	margin: 0 auto;
+}
+.accordion-box {
+	margin: 20px 0;
+}
+.accordion-title {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	padding: 10px;
+	background: #70b879;
+	border-radius: 10px;
+	color: #fff;
+	transition: all .3s ease;
+	cursor: pointer;
+}
+.accordion-title span {
+	display: inline-block;
+	margin-right: 10px;
+	padding:  .2em .7em;
+	background: #fff;
+	border-radius: 50%;
+	color: #70b879;
+	font-size: .8rem;
+}
+.accordion-title::after {
+	transform: translateY(-25%) rotate(45deg);
+	width: 10px;
+	height: 10px;
+	margin-left: 15px;
+	border-bottom: 2px solid #fff;
+	border-right: 2px solid #fff;
+	content: '';
+	transition: transform .3s;
+}
+.accordion-title.close::after {
+	transform: rotate(225deg);
+}
+.accordion-text {
+	display: none;
+	padding: 25px 10px;
+	background: #fff;
+}
+.accordion-text p span {
+	display: inline-block;
+	margin-right: 10px;
+	padding:  .2em .7em;
+	background: #F7F3EB;
+	border-radius: 50%;
+	color: #70b879;
+	font-size: .8rem;
+	font-weight: bold;
+}
+.accordion-text a {
+	border-bottom: 1px solid #333;
+}
+@media (hover) {
+  .accordion-text a:hover {
+    opacity: .5;
+  }
+}
+
+/* アクセス */
+.main-container section.access {
+	padding: 0;
+}
+.access {
+	position: relative;
+	width: 100%;
+}
+.access-bg {
+	position: relative;
+	height: 430px;
+	background: linear-gradient(180deg, #fff 0%, #fff 50%, #edf3f1 50%, #edf3f1 100%);
+}
+.access-bg::before {
+	content: "";
+	position: absolute;
+	top: 65px;
+	left: 0;
+	width: 100%;
+	height: 200px;
+	background: #edf3f1;
+	border-radius: 50% 50% 0 0 / 60% 60% 0 0;
+	z-index: 0;
+}
+.access-illust {
+	position: absolute;
+	top: 20px;
+	left: 50%;
+	width: 30%;
+	transform: translateX(-50%);
+	z-index: 1;
+}
+.access-illust img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.access h2 {
+	position: absolute;
+	top: 130px;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	z-index: 1;
+}
+.station-info {
+	position: absolute;
+	top: 200px;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, 0%);
+	display: flex;
+	align-items: center;
+	width: 90%;
+	height: 66px;
+	margin: 0 auto;
+	padding: 5px 25px 5px 8px;
+	box-sizing: border-box;
+	background: #73c07c;
+	border-radius: 40px;
+	color: #fff;
+	z-index: 2;
+}
+.station-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	margin-right: 15px;
+	border-radius: 50%;
+	background: #fff;
+	flex-shrink: 0;
+}
+.station-icon i {
+	color: #73c07c;
+	font-size: 30px;
+}
+.station-name {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	flex: 1;
+	min-width: 0;
+	letter-spacing: 1px;
+}
+.line-name {
+	font-size: .75rem;
+	line-height: 1.3;
+}
+.station {
+	font-size: 1.4rem;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+.walk-time {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	margin-left: 10px;
+	white-space: nowrap;
+}
+.walk-time span {
+	font-size: 1.2rem;
+}
+.walk-time strong {
+	font-size: 2rem;
+}
+.access-address {
+	position: absolute;
+	top: 300px;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, 0%);
+	text-align: center;
+	font-size: .95rem;
+	line-height: 1.5;
+	z-index: 1;
+}
+.access-map {
+	width: 100%;
+	height: 250px;
+	z-index: 2;
+}
+.access-map iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.footer-copy {
+	padding: 10px;
+	background: #edf3f1;
+	font-size: .6rem;
+	text-align: center;
+}
+
+/* =========================================================
+   接種可能日カレンダー：予定ラベルと詳細ポップアップ
+   （CalendarSchedule.js と対で動作する．追記のみで既存定義は変更しない）
+========================================================= */
+
+/* セルを縦フレックスにして，ラベルを下端へ押し下げられるようにする */
+.calendar-day {
+	display: flex;
+	flex-direction: column;
+}
+
+/* ラベルをまとめる箱．margin-top:auto でセル下端に吸着させる */
+.calendar-labels {
+	margin-top: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding-top: 2px;
+}
+
+/* ラベル本体．4文字が320px幅の端末でも折り返さないサイズに固定する */
+.calendar-label {
+	display: block;
+	width: 100%;
+	padding: 2px 0 3px;
+	border-radius: 4px;
+	font-size: 10px;
+	line-height: 1.3;
+	font-weight: 600;
+	text-align: center;
+	letter-spacing: .02em;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+/* 接種対応：既存の土曜文字色と同一の青 */
+.calendar-label--vaccination {
+	background: #287bc1;
+	color: #fff;
+}
+
+/* 休日接種：黄に白文字は読めないため濃いグレー文字にする */
+.calendar-label--holiday {
+	background: #f0b429;
+	color: #333;
+}
+
+/* 休診：既存の日曜・祝日文字色と同一の赤 */
+.calendar-label--closed {
+	background: #d93636;
+	color: #fff;
+}
+
+/* 前後月のセルはラベルも減衰させ，当月と区別する */
+.calendar-day.other-month .calendar-labels {
+	opacity: .55;
+}
+
+/* 詳細を持つ日だけを押せるようにする．タップ領域はセル全体（75px以上） */
+.calendar-day.is-clickable {
+	cursor: pointer;
+}
+.calendar-day.is-clickable:focus-visible {
+	outline: 2px solid #199253;
+	outline-offset: -2px;
+}
+
+/* マウス環境でだけホバーを出す（タップ端末で押した色が残るのを防ぐ） */
+@media (hover: hover) {
+	.calendar-day.is-clickable:hover {
+		background: #f5faf7;
+	}
+}
+
+/* 極端に狭い端末では文字を1段階小さくする */
+@media (max-width: 359px) {
+	.calendar-label {
+		font-size: 9px;
+		letter-spacing: 0;
+	}
+}
+
+
+/* =========================
+   詳細ポップアップ
+========================= */
+
+/* 既存のハンバーガーメニューが z-index:1000 を使うため，その上に出す */
+.cal-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 1200;
+}
+.cal-modal[hidden] {
+	display: none;
+}
+
+/* 背景の暗幕．クリックで閉じる */
+.cal-modal__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, .45);
+	opacity: 0;
+	transition: opacity .18s ease-out;
+}
+
+/* カード本体．×ボタンが角からはみ出すため overflow は掛けない */
+.cal-modal__card {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	display: flex;
+	flex-direction: column;
+	width: 320px;
+	max-width: calc(100vw - 48px);
+	max-height: 80vh;
+	padding: 24px 22px 22px;
+	border-radius: 12px;
+	background: #fff;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
+	opacity: 0;
+	/* 少し下から持ち上がってくる．中央寄せの translate(-50%,-50%) と
+	   重ねるため translateY を分けて書く（transform 内 calc を避ける） */
+	transform: translate(-50%, -50%) translateY(12px) scale(.94);
+	/* 素の状態には transition を置かない．
+	   開くときと閉じるときで別のイージングを当てたいので，
+	   それぞれ .is-open / .is-closing の側に書く． */
+}
+
+/* --- 開いた状態 --- */
+.cal-modal.is-open .cal-modal__backdrop {
+	opacity: 1;
+}
+.cal-modal.is-open .cal-modal__card {
+	opacity: 1;
+	transform: translate(-50%, -50%) translateY(0) scale(1);
+	/* 素早く出て，最後だけ優しく止まる（ease-out-expo 系）．
+	   行き過ぎ（バウンド）は入れない．医療機関の画面として品を優先する． */
+	transition: opacity .26s cubic-bezier(.16, 1, .3, 1),
+		transform .26s cubic-bezier(.16, 1, .3, 1);
+}
+
+/* --- 閉じかけの状態 --- */
+/* 開くときと同じイージングで閉じると «もたつき» に見える．
+   閉じるときは加速しながら消す（ease-in）のが自然． */
+.cal-modal.is-closing .cal-modal__card {
+	opacity: 0;
+	transform: translate(-50%, -50%) translateY(6px) scale(.96);
+	transition: opacity .18s cubic-bezier(.4, 0, 1, 1),
+		transform .18s cubic-bezier(.4, 0, 1, 1);
+}
+/* 暗幕はカードが消え始めてから追いかける．
+   同時に消すより視線が散らからず，背後のページが唐突に現れない．
+   遅延を付けるだけでは «後を追う» ことにならない点に注意．
+   ease-out（最初が速い）のままだと，遅れて始めてもカードを追い抜く．
+   カードと同じ ease-in に揃えたうえで，60ms 遅らせて開始する．
+   60ms + .12s ＝ カードの .18s と同時に終わり，途中では必ず暗幕が濃い． */
+.cal-modal.is-closing .cal-modal__backdrop {
+	opacity: 0;
+	transition: opacity .12s cubic-bezier(.4, 0, 1, 1) .06s;
+}
+
+/* 本文だけをスクロールさせる */
+.cal-modal__body {
+	overflow-y: auto;
+}
+
+/* 読み上げ専用の見出し（目には見えない） */
+.cal-modal__srtitle {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* 閉じるボタン．カード右上の角に重なる黒丸．
+   «登場 → hover → 押下 → 退場» の4状態を持たせている．
+   transform を «登場» と «hover» で取り合わせないため，
+   登場だけ @keyframes に分け，hover と退場は transition で扱う． */
+.cal-modal__close {
+	position: absolute;
+	top: -14px;
+	right: -14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border: 2px solid #fff;
+	border-radius: 50%;
+	background: #222;
+	cursor: pointer;
+	/* 閉じている間の姿．小さく沈んで透明．is-open で等倍まで開く */
+	opacity: 0;
+	transform: scale(.6);
+	/* 2つめの影がホバー時のリングになる（広がる余地を 0 で用意しておく） */
+	box-shadow: 0 2px 6px rgba(0, 0, 0, .25),
+		0 0 0 0 rgba(34, 34, 34, 0);
+	/* ここに書いた transition が «閉じるときの動き» になる．
+	   カード（.18s）より短くしてあるので，×が先に沈んでからカードが消える． */
+	transition: opacity .12s cubic-bezier(.4, 0, 1, 1),
+		transform .12s cubic-bezier(.4, 0, 1, 1);
+}
+
+/* 見た目は36pxのまま，タップ実効領域を48pxまで広げる */
+.cal-modal__close::before {
+	content: "";
+	position: absolute;
+	inset: -6px;
+}
+
+/* --- 登場 --- */
+/* カードが動き出してから 90ms 遅れて出す．
+   同時に出すと «面» と «点» が競合して，どちらも印象に残らない． */
+.cal-modal.is-open .cal-modal__close {
+	opacity: 1;
+	transform: scale(1);
+	animation: calCloseIn .28s cubic-bezier(.34, 1.4, .64, 1) .09s backwards;
+	/* 開いている間の transition．hover をなめらかに受けるため上書きする．
+	   .is-open が外れた瞬間に上の «退場用» へ戻る． */
+	transition: opacity .2s ease-out,
+		transform .24s cubic-bezier(.16, 1, .3, 1),
+		background-color .2s ease-out,
+		box-shadow .28s cubic-bezier(.16, 1, .3, 1);
+}
+
+/* backwards を指定してあるので，遅延中は from の姿（透明）のまま待つ．
+   これが無いと遅延の 90ms だけ等倍の×がちらつく． */
+@keyframes calCloseIn {
+	from {
+		opacity: 0;
+		transform: scale(.4) rotate(-45deg);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) rotate(0);
+	}
+}
+
+/* --- ホバー --- */
+/* マウス環境でだけ出す．タップ端末では指を離しても状態が残ってしまう
+   （既存の .calendar-day.is-clickable:hover と同じ扱いに揃えている） */
+@media (hover: hover) {
+	.cal-modal.is-open .cal-modal__close:hover {
+		background: #000;
+		transform: scale(1.08);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, .3),
+			0 0 0 6px rgba(34, 34, 34, .1);
+	}
+	/* 線そのものをわずかに伸ばす．丸が大きくなるだけより «反応した» 感が出る */
+	.cal-modal.is-open .cal-modal__close:hover .cal-modal__close-icon {
+		width: 16px;
+	}
+}
+
+/* --- 押した瞬間 --- */
+/* 沈み込みは速く戻す．ゆっくりだと «重い» ボタンに感じる */
+.cal-modal.is-open .cal-modal__close:active {
+	transform: scale(.92);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .3),
+		0 0 0 3px rgba(34, 34, 34, .12);
+	transition-duration: .08s;
+}
+
+/* --- キーボードフォーカス --- */
+/* openModal はこのボタンへ必ず focus() を移す（Tab が背後のページへ
+   逃げないようにするため）．そのぶん «マウスで開いただけなのに
+   リングが出る» のを防ぐ必要がある．
+   :focus-visible はプログラム的な focus() の扱いがブラウザ間で揺れ，
+   実測では Chrome がマウス由来でもリングを出した．
+   そこで «どう開かれたか» を JS 側で判別し（click の detail が 0 なら
+   キーボード），.is-keyboard を付けたときだけリングを出す． */
+.cal-modal__close:focus {
+	outline: none;
+}
+.cal-modal.is-keyboard .cal-modal__close:focus {
+	/* 白を1枚挟むことで，黒丸と緑のリングが互いに溶けない．
+	   緑は既存の .calendar-day.is-clickable:focus-visible と同色 */
+	box-shadow: 0 4px 12px rgba(0, 0, 0, .3),
+		0 0 0 3px #fff,
+		0 0 0 6px #199253;
+}
+
+/* --- ×の2本線 --- */
+/* 文字の «×» を使わないのは，グリフの形と中心がフォントに左右されるため．
+   線として描けば太さ・長さ・角度を厳密に決められ，伸縮も掛けられる． */
+.cal-modal__close-icon {
+	position: relative;
+	display: block;
+	width: 14px;
+	height: 14px;
+	transition: width .24s cubic-bezier(.16, 1, .3, 1);
+}
+.cal-modal__close-icon::before,
+.cal-modal__close-icon::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	margin-top: -1px;
+	border-radius: 1px;
+	background: #fff;
+}
+.cal-modal__close-icon::before {
+	transform: rotate(45deg);
+}
+.cal-modal__close-icon::after {
+	transform: rotate(-45deg);
+}
+
+/* 同じ日に2種類ある場合の種別バッジ．
+   .calendar-label の width:100% を打ち消しつつ，後続の見出しピルと
+   同じ行に流れないよう，内容幅のブロック要素として扱う． */
+.cal-modal__badge {
+	display: block;
+	width: -webkit-fit-content;
+	width: fit-content;
+	margin-bottom: 10px;
+	padding: 2px 12px 3px;
+	font-size: 11px;
+}
+
+/* 見出しピル．既存の .title2 と同系の緑で揃える */
+.cal-modal__pill {
+	display: inline-block;
+	padding: 2px 16px 3px;
+	border-radius: 50vw;
+	background: #70b879;
+	color: #fff;
+	font-size: .7rem;
+	line-height: 1.5;
+	letter-spacing: .05em;
+}
+
+/* 本文 */
+.cal-modal__text {
+	margin: 6px 0 14px;
+	color: #333;
+	font-size: .9rem;
+	line-height: 1.6;
+}
+.cal-modal__group:last-child .cal-modal__text:last-child {
+	margin-bottom: 0;
+}
+.cal-modal__line {
+	display: block;
+}
+/* 「※」で始まる行は注記として小さく落とす．
+   ただし装飾タグを明示した行にはこのクラスを付けない（JS側で判定）．
+   灰色と小さい文字が，書き手の指定した色や太字を打ち消すため． */
+.cal-modal__line.is-note {
+	font-size: .75rem;
+	color: #666;
+}
+
+/* --- 文字装飾 --- */
+/* 管理画面のツールバーが入れた記法（[b] [u] [red] [green] [gray]）を
+   CalendarSchedule.js が span へ変換したもの．
+   色は既にLP内で使っている3色に限定し，ページの統一感を崩さない． */
+.cal-modal__line .is-bold {
+	font-weight: 700;
+}
+.cal-modal__line .is-underline {
+	text-decoration: underline;
+}
+/* 休診ラベルと同じ赤．注意喚起に使う */
+.cal-modal__line .is-red {
+	color: #d93636;
+}
+/* 見出しピルと同じ緑．ブランド色 */
+.cal-modal__line .is-green {
+	color: #70b879;
+}
+/* 注記と同じ灰．補足に使う */
+.cal-modal__line .is-gray {
+	color: #666;
+}
+
+/* 2種類ぶんを縦に連結するときの区切り */
+.cal-modal__group + .cal-modal__group {
+	margin-top: 18px;
+	padding-top: 18px;
+	border-top: 1px solid #e3e8e6;
+}
+
+/* アニメーションを好まない利用者の設定を尊重する．
+   «動かさない» だけで，見えるべきものは最終形で即座に見せる．
+   ここで transform を打ち消しておかないと，動かないまま
+   小さく沈んだ姿で固まってしまう． */
+@media (prefers-reduced-motion: reduce) {
+	.cal-modal__backdrop,
+	.cal-modal__card,
+	.cal-modal__close,
+	.cal-modal__close-icon,
+	.cal-modal.is-open .cal-modal__card,
+	.cal-modal.is-open .cal-modal__close,
+	.cal-modal.is-closing .cal-modal__card,
+	.cal-modal.is-closing .cal-modal__backdrop {
+		transition: none;
+		animation: none;
+	}
+	.cal-modal.is-open .cal-modal__card {
+		transform: translate(-50%, -50%);
+	}
+	.cal-modal.is-open .cal-modal__close {
+		transform: none;
+	}
+}
