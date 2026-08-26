@@ -172,7 +172,25 @@
 	  
 	<section id="area3" class="bg">
 	  <h2 class="title"><img src="images/syringe.png" alt="">接種可能日カレンダー</h2>
-	  <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FTokyo&showPrint=0&src=eWFtYWJpa28ua3VzYXlhbmFnaUBnbWFpbC5jb20&src=amEuamFwYW5lc2UjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039be5&color=%230b8043" style="border-width:0" frameborder="0" scrolling="no" class="calendar"></iframe>
+	  <!--<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FTokyo&showPrint=0&src=eWFtYWJpa28ua3VzYXlhbmFnaUBnbWFpbC5jb20&src=amEuamFwYW5lc2UjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039be5&color=%230b8043" style="border-width:0" frameborder="0" scrolling="no" class="calendar"></iframe>-->
+	  <div class="calendar">
+		<div class="calendar-header">
+		  <button type="button" class="calendar-prev" aria-label="前の月">&#10094;</button>
+		  <div class="calendar-month" id="calendar-month">2026年8月</div>
+		  <button type="button" class="calendar-next" aria-label="次の月">&#10095;</button>
+		</div>
+		<div class="calendar-week">
+		  <div>月</div>
+		  <div>火</div>
+		  <div>水</div>
+		  <div>木</div>
+		  <div>金</div>
+		  <div class="sat">土</div>
+		  <div class="sun">日</div>
+		</div>
+		<div class="calendar-days" id="calendar-days"></div>
+	  </div>
+		
 	  <a href="https://yamabiko-yobou.reserve.ne.jp/sp/index.php?" target="_blank" rel="noopener noreferrer" class="link-btn link-btn-yoyaku"><i class="fa-solid fa-calendar-days"></i>&nbsp;予約する</a>
 	</section>
 	  
@@ -342,5 +360,6 @@
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/CalendarSchedule.js"></script>
 </body>
 </html>
