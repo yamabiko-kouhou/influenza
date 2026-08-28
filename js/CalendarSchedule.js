@@ -2,7 +2,7 @@
    接種可能日カレンダー：予定ラベルと詳細ポップアップ
 
    main.js が生成した月グリッドに対して，あとから
-   「接種対応 / 休日接種 / 休診」のラベルを貼り付ける．
+   「接種日 / 休日接種 / 休診」のラベルを貼り付ける．
    main.js 側のコードには一切手を加えない（既存表示の非破壊が最優先）．
 
    予定データは data/ScheduleData.js から読み込む．
@@ -18,7 +18,7 @@
 	   不正な値が流れ込んでも見た目が壊れないようにするため．
 	========================= */
 	var labelTypes = {
-		vaccination:         { name: '接種対応', modifier: 'vaccination', order: 1 },
+		vaccination:         { name: '接種日', modifier: 'vaccination', order: 1 },
 		holiday_vaccination: { name: '休日接種', modifier: 'holiday',     order: 2 },
 		closed:              { name: '休診',     modifier: 'closed',      order: 3 }
 	};
