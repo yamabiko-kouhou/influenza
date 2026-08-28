@@ -1021,7 +1021,7 @@ header .logo {
 	overflow: hidden;
 }
 
-/* 接種対応：既存の土曜文字色と同一の青 */
+/* 接種日：既存の土曜文字色と同一の青 */
 .calendar-label--vaccination {
 	background: #287bc1;
 	color: #fff;

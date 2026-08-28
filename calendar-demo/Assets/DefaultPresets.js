@@ -13,7 +13,7 @@
 ========================================================= */
 window.FLU_DEFAULT_PRESETS = [
 	{
-		name: '平日標準（接種対応）',
+		name: '平日標準（接種日）',
 		type: 'vaccination',
 		isDefault: true,
 		time: '午前：9:00～13:00\n午後：14:30～18:15',

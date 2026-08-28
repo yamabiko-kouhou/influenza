@@ -10,7 +10,7 @@
 
 	/* ラベル種別の定義．表示名と色クラスはLP本体と揃える． */
 	var LABEL_TYPES = {
-		vaccination:         { name: '接種対応', modifier: 'vaccination' },
+		vaccination:         { name: '接種日', modifier: 'vaccination' },
 		holiday_vaccination: { name: '休日接種', modifier: 'holiday' },
 		closed:              { name: '休診',     modifier: 'closed' }
 	};
@@ -933,7 +933,7 @@
 		bodyHtml +=
 			'<p>保存後の全体</p><ul>' +
 			'<li>登録日数：' + dates.length + '日</li>' +
-			'<li>接種対応：' + counts.vaccination + '件</li>' +
+			'<li>接種日：' + counts.vaccination + '件</li>' +
 			'<li>休日接種：' + counts.holiday_vaccination + '件</li>' +
 			'<li>休診：' + counts.closed + '件</li>' +
 			'</ul>';
