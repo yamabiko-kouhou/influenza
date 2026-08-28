@@ -450,6 +450,9 @@ header .logo {
 	font-weight: bold;
 	z-index: 2;
 }
+.hero-content .hero-title span {
+	font-size: .8rem;
+}
 .hero-text {
 	position: relative;
 	margin: 20px 0 5px;
