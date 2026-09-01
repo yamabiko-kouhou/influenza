@@ -44,10 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	/* =========================
 	   表示できる期間
 	========================= */
-	const minDate = new Date(2026, 7, 1);  // 2026年8月
+	const minDate = new Date(2026, 8, 1);  // 2026年9月
 	const maxDate = new Date(2027, 2, 1);  // 2027年3月
 	const holidays = [
-	'2026-08-11',
 	'2026-09-21',
 	'2026-09-22',
 	'2026-09-23',
@@ -61,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	'2027-03-21',
 	'2027-03-22'
 	];  // 祝日の指定
-	let currentDate = new Date(2026, 7, 1);
+	let currentDate = new Date(2026, 8, 1);
 
 	/* =========================
 	   カレンダー作成
