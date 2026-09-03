@@ -769,7 +769,7 @@ header .logo {
 	color: #fff;
 	font-size: 12px;
 	letter-spacing: 2px;
-	z-index: 50;
+	z-index: 1;
 }
 .first_flow > li dl dt img {
 	display: block;
@@ -1024,7 +1024,7 @@ header .logo {
 	overflow: hidden;
 }
 
-/* 接種対応：既存の土曜文字色と同一の青 */
+/* 接種日：既存の土曜文字色と同一の青 */
 .calendar-label--vaccination {
 	background: #287bc1;
 	color: #fff;
