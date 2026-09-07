@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	/* =========================
 	   表示できる期間
 	========================= */
-	const minDate = new Date(2026, 7, 1);  // 2026年8月
+	const minDate = new Date(2026, 8, 1);  // 2026年9月
 	const maxDate = new Date(2027, 2, 1);  // 2027年3月
 	const holidays = [
 	'2026-09-21',
@@ -60,7 +60,20 @@ document.addEventListener('DOMContentLoaded', function () {
 	'2027-03-21',
 	'2027-03-22'
 	];  // 祝日の指定
-	let currentDate = new Date(2026, 7, 1);
+	
+	// 現在の月を取得
+	let currentDate = new Date();
+	currentDate.setDate(1);
+	
+	// 2026年9月より前なら9月を表示
+	if (currentDate < minDate) {
+		currentDate = new Date(minDate);
+	}
+	
+	// 2027年3月より後なら3月を表示
+	if (currentDate > maxDate) {
+		currentDate = new Date(maxDate);
+	}
 
 	/* =========================
 	   カレンダー作成
@@ -146,9 +159,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			/* 日付 */
 			const dateElement =
 				document.createElement('span');
-			dateElement.classList.add('calendar-date');
-			dateElement.textContent = dayNumber;
-			cell.appendChild(dateElement);
+				dateElement.classList.add('calendar-date');
+				dateElement.textContent = dayNumber;
+				cell.appendChild(dateElement);
 
 			/* 今日 */
 			if (
