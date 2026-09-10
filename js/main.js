@@ -63,7 +63,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	
 	// 現在の月を取得
 	let currentDate = new Date();
-	currentDate.setDate(1);
+	currentDate = new Date(
+		currentDate.getFullYear(),
+		currentDate.getMonth(),
+		1
+	);
 	
 	// 2026年9月より前なら9月を表示
 	if (currentDate < minDate) {
@@ -177,11 +181,22 @@ document.addEventListener('DOMContentLoaded', function () {
 		/* =========================
 		   ボタン制御
 		========================= */
+		const currentYear = currentDate.getFullYear();
+		const currentMonth = currentDate.getMonth();
+		
+		const minYear = minDate.getFullYear();
+		const minMonth = minDate.getMonth();
+		
+		const maxYear = maxDate.getFullYear();
+		const maxMonth = maxDate.getMonth();
+		
 		prevButton.disabled =
-			currentDate <= minDate;
-
+			currentYear === minYear &&
+			currentMonth === minMonth;
+		
 		nextButton.disabled =
-			currentDate >= maxDate;
+			currentYear === maxYear &&
+			currentMonth === maxMonth;
 	}
 
 	/* =========================
